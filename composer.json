@@ -1,0 +1,30 @@
+{
+  "name":"skowalsky/guestorder",
+  "description": "Extends MERCONIS order functionality to differ between private and business customers, when the customer has no user account",
+  "keywords":["merconis", "guest", "order", "skowalsky", "business", "private", "differ", "not logged in"],
+  "type":"contao-bundle",
+  "license":"LGPL-3.0-or-later",
+  "authors":[
+    {
+      "name":"Samuel Kowalsky",
+      "homepage":"http://bytecap.net",
+      "role":"Developer"
+    }
+  ],
+  "require":{
+    "php":">=7.0",
+    "contao/core-bundle": "~4.4",
+    "leadingsystems/contao-merconis": "~4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "SKowalsky\\GuestOrder\\": "src"
+    },
+    "classmap": [
+      "src/Resources/contao/"
+    ]
+  },
+  "extra": {
+    "contao-manager-plugin": "SKowalsky\\GuestOrder\\ContaoManager\\Plugin"
+  }
+}
