@@ -657,13 +657,15 @@ class ModuleCheckoutFinish extends \Module {
 		 */
 
         $customertype = $order['customerInfo']['personalData_originalOptionValues']['customertype'];
+        $gid = $order['customerInfo']['memberGroupInfo']['id'];
+        $name = \Database::getInstance()->prepare("SELECT name FROM tl_member_group WHERE id='$gid';")->execute()->fetchAllAssoc()[0]['name'];
 
         if($customertype == 'firma') {
             $order['customerInfo']['memberGroupInfo']['id'] = 2;    //Geschäftskunden Gruppe
-            $order['customerInfo']['memberGroupInfo']['name'] = 'MERCONIS: Business customers/Geschäftskunden'; //Geschäftskunden Gruppe
+            $order['customerInfo']['memberGroupInfo']['name'] = $name; //Geschäftskunden Gruppe
         } else if($customertype == 'private') {
             $order['customerInfo']['memberGroupInfo']['id'] = 1;    //Standardkunden Gruppe
-            $order['customerInfo']['memberGroupInfo']['name'] = 'MERCONIS: Standard customers/Standardkunden'; //Standardkunden Gruppe
+            $order['customerInfo']['memberGroupInfo']['name'] = $name; //Standardkunden Gruppe
         }
 
 		$objInsertedOrder = \Database::getInstance()->prepare("
@@ -754,10 +756,8 @@ class ModuleCheckoutFinish extends \Module {
 			$order['customerInfo']['paymentDataReview_customerLanguage'],
 			$order['customerInfo']['shippingDataReview'],
 			$order['customerInfo']['shippingDataReview_customerLanguage'],
-
 			$order['customerInfo']['memberGroupInfo']['id'],
 			$order['customerInfo']['memberGroupInfo']['name'],
-			
 			$order['currency'],
 			$order['weightUnit'],
 			$order['userOutputPriceType'],
