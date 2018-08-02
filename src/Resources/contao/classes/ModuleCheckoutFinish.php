@@ -656,9 +656,15 @@ class ModuleCheckoutFinish extends \Module {
 		 * writing the order row in tl_ls_shop_orders
 		 */
 
-        echo 'ORDER ARRAY:<br>';
-        print_r($order);
-        die();
+        $customertype = $order['customerInfo']['personalData_originalOptionValues']['customertype'];
+
+        if($customertype == 'firma') {
+            $order['customerInfo']['memberGroupInfo']['id'] = 2;    //Geschäftskunden Gruppe
+            $order['customerInfo']['memberGroupInfo']['name'] = 'MERCONIS: Business customers/Geschäftskunden'; //Geschäftskunden Gruppe
+        } else if($customertype == 'private') {
+            $order['customerInfo']['memberGroupInfo']['id'] = 1;    //Standardkunden Gruppe
+            $order['customerInfo']['memberGroupInfo']['name'] = 'MERCONIS: Standard customers/Standardkunden'; //Standardkunden Gruppe
+        }
 
 		$objInsertedOrder = \Database::getInstance()->prepare("
 			INSERT INTO `tl_ls_shop_orders`
